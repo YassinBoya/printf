@@ -1,4 +1,5 @@
 #include "main.h"
+#include <unistd.h>
 #include <stdarg.h>
 /**
  * _printf - function that produces output according to a format
@@ -23,29 +24,31 @@ int _printf(const char *format, ...)
 				break;
 			if(*f == 'c')
 			{
-				int chara = va_arg(args, int);
-				_putchar(chara);
+				char chara = va_arg(args, int);
+				write(1, &chara, 1);
 				sum_chars++;
 			}
 			else if (*f == 's')
 			{
-				char* str = va_arg(args, char *);
-
-				for (i = 0; str[i] != '\0'; i++)
+				char *str = va_arg(args, char *);
+				
+				i = 0;
+				while (str[i] != '\0')
 				{
-					_putchar(str[i]);
-					sum_chars++;
+				       	i++;
 				}
+					write(1, str, i);
+					sum_chars += i;
 			}
 				else if (*f == '%')
 				{
-					_putchar('%');
+					write(1, f, 1);
 					sum_chars++;
 				}
 			}
 			else
 			{
-				_putchar(*f);
+				write(1, f, 1);
 				sum_chars++;
 			}
 		}
