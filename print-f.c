@@ -61,5 +61,5 @@ int _printf(const char *format, ...)
 	}
 
 	va_end(args);
-	return sum_chars;
+	return (sum_chars);
 }
