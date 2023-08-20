@@ -10,10 +10,10 @@ int _printf(const char *format, ...)
 	const char *f = format;
 	va_list args;
 
-	va_start(args , format);
 
 	if (!format)
 		return (-1);
+	va_start(args , format);
 	for (f =(char *)format; *f != '\0'; f++)
 	{
 		if(*f == '%')
