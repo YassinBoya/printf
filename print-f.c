@@ -15,9 +15,7 @@ int _printf(const char *format, ...)
 
 	if (!format)
 		return (-1);
-
 	va_start(args, format);
-
 	for (f = format; *f != '\0'; f++)
 	{
 		if (*f == '%')
@@ -31,6 +29,7 @@ int _printf(const char *format, ...)
 				case 'c':
 					{
 						char chara = va_arg(args, int);
+
 						write(1, &chara, 1);
 						sum_chars++;
 						break;
@@ -38,6 +37,7 @@ int _printf(const char *format, ...)
 				case 's':
 					{
 						char *str = va_arg(args, char *);
+
 						size_t len = strlen(str);
 						write(1, str, len);
 						sum_chars += len;
@@ -50,9 +50,7 @@ int _printf(const char *format, ...)
 						break;
 					}
 				default:
-					{
 						break;
-					}
 			}
 		}
 		else
@@ -65,4 +63,3 @@ int _printf(const char *format, ...)
 	va_end(args);
 	return sum_chars;
 }
-
