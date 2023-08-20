@@ -7,7 +7,7 @@
 int _printf(const char *format, ...)
 {
 	int i, sum_chars = 0;
-	const char *f = format;
+	const char *f;
 	va_list args;
 
 
