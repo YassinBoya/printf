@@ -27,7 +27,7 @@ int _printf(const char *format, ...)
 				_putchar(chara);
 				sum_chars++;
 			}
-			else if (*f == 'S')
+			else if (*f == 's')
 			{
 				char* str = va_arg(args, char *);
 
