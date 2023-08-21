@@ -13,44 +13,40 @@
 int _printf(const char *format, ...)
 {
 	int sum_chars = 0;
-	const char *f;
 	va_list args;
-	char buffer[BUFFER_SIZE];
-	int buff_ind = 0;
 
-	if (!format)
+	if (format == NULL)
 		return (-1);
 	va_start(args, format);
-	for (f = format; *f != '\0'; f++)
+
+	while (*format)
 	{
-		if (*f == '%') {
-			flush_buffer(buffer, &buff_ind, &sum_chars);
-			f++;
-			if (*f == '\0')
-				break;
-			switch (*f) {
-				case 'c':
-					handle_char(args, buffer, &buff_ind, &sum_chars);
-					break;
-				case 's':
-					handle_string(args, buffer, &buff_ind, &sum_chars);
-					break;
-				case '%':
-					handle_percent(buffer, &buff_ind, &sum_chars);
-					break;
-			}
+		if (*format != '%')
+		{
+			write(1, format, 1);
+			sum_chars++;
 		}
 		else
 		{
-			if (buff_ind >= BUFFER_SIZE - 1)
+			format++;
+			if (*format == '\0')
+				break;
+
+			switch (*format)
 			{
-				flush_buffer(buffer, &buff_ind, &sum_chars);
+				case '%':
+					handle_percent(&sum_chars);
+					break;
+				case 'c':
+					handle_char(args, &sum_chars);
+					break;
+				case 's':
+					handle_string(args, &sum_chars);
+					break;
 			}
-			buffer[buff_ind++] = *f;
-			sum_chars++;
 		}
+		format++;
 	}
-	flush_buffer(buffer, &buff_ind, &sum_chars);
 	va_end(args);
-	return sum_chars;
+	return (sum_chars);
 }
