@@ -1,11 +1,16 @@
-#ifndef function_pointers_H
-#define function_pointers_H
+#ifndef MAIN_H
+#define MAIN_H
 
-#include <stdlib.h>
 #include <stdarg.h>
-void handle_char(va_list args, int *sum_chars);
-void handle_string(va_list args, int *sum_chars);
-void handle_percent(int *sum_chars);
+#include <unistd.h>
+
+void flush_buffer(char buffer[], int *buff_ind, int *sum_chars);
+
+void handle_char(va_list args, char buffer[], int *buff_ind, int *sum_chars);
+void handle_string(va_list args, char buffer[], int *buff_ind, int *sum_chars);
+void handle_percent(char buffer[], int *buff_ind, int *sum_chars);
+
 int _printf(const char *format, ...);
 
 #endif
+

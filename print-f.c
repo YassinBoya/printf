@@ -2,50 +2,55 @@
 #include <unistd.h>
 #include <stdarg.h>
 #include <string.h>
+
+#define BUFFER_SIZE 1024
+
 /**
- * _printf - function that produces output according to a format
- * @format: the input to print
- * * Return: the length of string format provided
+ * _printf - Custom printf implementation
+ * @format: Format string containing conversion specifiers
+ * Return: Number of characters printed
  */
 int _printf(const char *format, ...)
 {
 	int sum_chars = 0;
 	const char *f;
 	va_list args;
+	char buffer[BUFFER_SIZE];
+	int buff_ind = 0;
 
 	if (!format)
 		return (-1);
-
 	va_start(args, format);
-
 	for (f = format; *f != '\0'; f++)
 	{
-		if (*f == '%')
-		{
+		if (*f == '%') {
+			flush_buffer(buffer, &buff_ind, &sum_chars);
 			f++;
 			if (*f == '\0')
 				break;
-
-			switch (*f)
-			{
+			switch (*f) {
 				case 'c':
-					handle_char(args, &sum_chars);
+					handle_char(args, buffer, &buff_ind, &sum_chars);
 					break;
 				case 's':
-					handle_string(args, &sum_chars);
+					handle_string(args, buffer, &buff_ind, &sum_chars);
 					break;
 				case '%':
-					handle_percent(&sum_chars);
+					handle_percent(buffer, &buff_ind, &sum_chars);
 					break;
 			}
 		}
 		else
 		{
-			write(1, f, 1);
+			if (buff_ind >= BUFFER_SIZE - 1)
+			{
+				flush_buffer(buffer, &buff_ind, &sum_chars);
+			}
+			buffer[buff_ind++] = *f;
 			sum_chars++;
 		}
 	}
-
+	flush_buffer(buffer, &buff_ind, &sum_chars);
 	va_end(args);
-	return (sum_chars);
+	return sum_chars;
 }
