@@ -11,4 +11,3 @@ void handle_percent(int *sum_chars);
 int _printf(const char *format, ...);
 
 #endif
-
